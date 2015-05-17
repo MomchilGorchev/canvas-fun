@@ -33,19 +33,27 @@ var particle = {
     radius: 2,
     color: 'black',
     draw:function(){
-
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
-            ctx.closePath();
-            ctx.fillStyle = 'black';
-            ctx.fill();
-
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+        ctx.closePath();
+        ctx.fillStyle = 'black';
+        ctx.fill();
     }
 };
 
 function clear(){
     ctx.fillStyle = 'rgba(255,255,255,0.3)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function shiftPoint(point){
+    var x = point.x;
+    var y = point.y;
+
+    var newX = Math.random() * canvas.width;
+    var newY = Math.random() * canvas.height;
+
+    TweenLite.to(point, Math.random() * 2, {x: x + newX, y: y + newY, onComplete: function(){console.log('ya!')}});
 }
 
 function draw(){
@@ -55,6 +63,7 @@ function draw(){
         particle.x =  Math.random() * canvas.width;
         particle.y =  Math.random() * canvas.height;
         particle.draw();
+        shiftPoint(particle);
     }
 
     ball.x += 2*ball.vx;
@@ -85,6 +94,7 @@ canvas.addEventListener('mousemove', function(e){
             particle.x =  Math.random() * canvas.width;
             particle.y =  Math.random() * canvas.height;
             particle.draw();
+            shiftPoint(particle);
         }
     }
 });
