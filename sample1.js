@@ -25,6 +25,14 @@ var point = function(){
         ctx.fill();
     };
 
+    this.move = function(){
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        this.x +=1;
+        this.y += 0.25;
+        //this.draw();
+    }
+
 };
 
 
@@ -39,7 +47,6 @@ window.addEventListener('click', function(){
         y : Math.random() * canvas.height
     };
 
-    point.move(pos);
 });
 
 
@@ -48,25 +55,26 @@ function createPoint(){
         var p = new point;
         p.draw();
         points.push(p);
+
+        point.move();
+        point.draw();
     }
 
-    shiftPoint(points);
+
 }
 
-function shiftPoint(points){
+function shiftPoint(point){
 
-    for(var k = 0; k< points.length; k++){
-        var p = points[k];
-        var x = p.x;
-        var y = p.y;
+        //var p = point;
+        //var x = p.x;
+        //var y = p.y;
+        //
+        //var newX = Math.random() * canvas.width + 2;
+        //var newY = Math.random() * canvas.height + 2;
+        //
+        //TweenMax.to(p, 1, {x: newX, y: newY, onComplete: function(){console.log('ya!')}});
 
-        var newX = Math.random() * canvas.width;
-        var newY = Math.random() * canvas.height;
-
-        TweenMax.to(p, 1, {x: x + newX, y: y + newY, onComplete: function(){console.log('ya!')}});
-
-        requestAnimationFrame(createPoint);
-    }
+        //requestAnimationFrame();
 }
 
 createPoint();
