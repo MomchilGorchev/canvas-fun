@@ -2,79 +2,93 @@
  * Created by momchillgorchev on 17/05/15.
  */
 
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-var points = [], running = false;
+var canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
+var WIDTH = canvas.width;
 canvas.height = window.innerHeight;
+var HEIGHT = canvas.height;
+
+var particles = [],
+    colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'],
+    totalParticles = randomNumber(150, 300);
 
 
-var point = function(){
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.vx = 5;
-    this.vy = 1;
-    this.radius= 2;
-    this.color= 'black';
-    this.draw = function(){
+for(var i = 0; i < totalParticles; i++){
+    var x = Math.random() * WIDTH;
+    var y = Math.random() * HEIGHT;
+
+    var atom = new Particle(x, y, colors[Math.floor(i%colors.length)], randomNumber(1, 6), randomNumber(0.3, 1));
+
+    atom.posX = x;
+    atom.posY = y;
+
+    particles.push(atom);
+}
+
+function randomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function Particle(x, y, color, radius, alpha){
+    var _this = this;
+
+    _this.x = x || null;
+    _this.y = y || null;
+    _this.radius = radius || null;
+    _this.color = color || null;
+    _this.alpha = alpha || null;
+    _this.draw = function(){
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+        ctx.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, true);
         ctx.closePath();
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'rgba('+_this.color+', '+_this.alpha+')';
         ctx.fill();
-    };
-
-    this.move = function(){
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        this.x +=1;
-        this.y += 0.25;
-        //this.draw();
     }
-
-};
-
-
-console.log(points);
-
-//point.draw();
-//point.move();
-
-window.addEventListener('click', function(){
-    var pos = {
-        x : Math.random() * canvas.width,
-        y : Math.random() * canvas.height
-    };
-
-});
-
-
-function createPoint(){
-    for( var i = 0; i < 50; i++){
-        var p = new point;
-        p.draw();
-        points.push(p);
-
-        point.move();
-        point.draw();
-    }
-
-
 }
 
-function shiftPoint(point){
+function drawCanvas(){
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
-        //var p = point;
-        //var x = p.x;
-        //var y = p.y;
-        //
-        //var newX = Math.random() * canvas.width + 2;
-        //var newY = Math.random() * canvas.height + 2;
-        //
-        //TweenMax.to(p, 1, {x: newX, y: newY, onComplete: function(){console.log('ya!')}});
+    for(var j = 0; j < particles.length; i++){
+        particles[j].draw(ctx);
+    }
 
-        //requestAnimationFrame();
+    requestAnimationFrame(drawCanvas);
 }
 
-createPoint();
+drawCanvas();
+
+var tweenDuration = 0, tweenDelay = 0;
+
+function moveParticle(atom){
+    tweenDelay = 1.5 * Math.random();
+
+    if(tweenDelay > tweenDuration){
+        tweenDuration = tweenDelay;
+    }
+
+    TweenMax.to(atom, 0.5 + Math.random(), {
+        x: Math.random() * WIDTH,
+        y: Math.random() * HEIGHT,
+        delay: tweenDuration + 0.5,
+        ease: Cubic.easeInOut,
+        onComplete: function(){
+
+            TweenMax.to(atom, 0.5 + Math.random(), {
+                x: Math.random() * WIDTH,
+                y: Math.random() * HEIGHT,
+                delay: tweenDuration + 0.5,
+                ease: Cubic.easeInOut,
+                onComplete: function(){
+                    moveParticle(atom);
+                }
+            });
+        }
+    });
+}
+
+for(var k = 0; k < particles.length; k++){
+    moveParticle(particles[k]);
+}
