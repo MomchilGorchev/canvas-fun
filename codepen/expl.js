@@ -13,7 +13,7 @@ var centerX = canvas.width/2,
 
 var circles = [],
     colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'],
-    totalSquares = randomNumber(190, 230);
+    totalSquares = randomNumber(290, 430);
 
 
 for (var i = 0; i < totalSquares; i++) {
@@ -88,7 +88,7 @@ function tweenSquares(square) {
         ease: Cubic.easeInOut,
         onComplete: function() {
 
-            TweenMax.to(square, longestReturnDuration, {
+            TweenMax.to(square, 0.7 + Math.random(), {
                 x: randomNumber(0, canvas.width),
                 y: randomNumber(0, canvas.height),
                 width: 5,
