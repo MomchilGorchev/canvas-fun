@@ -19,10 +19,10 @@ var circles = [],
 for (var i = 0; i < totalSquares; i++) {
 
     var p = Math.random(),
-        x = centerX,
-        y = centerY;
+        x = Math.random() * canvas.width,
+        y = Math.random() * canvas.height;
 
-    var square = new Circle(x,y,colors[Math.floor(i%colors.length)], randomNumber(3, 8), randomNumber(0.5, 1));
+    var square = new Circle(x,y,colors[Math.floor(i%colors.length)], randomNumber(1, 4), randomNumber(0.5, 1));
 
     square.innerX = x;
     square.innerY = y;
@@ -84,13 +84,13 @@ function tweenSquares(square) {
         x: randomNumber(0, canvas.width),
         y: randomNumber(0, canvas.height),
         width: 20,
-        delay: longestReturnDuration + .75,
+        delay:  .75,
         ease: Cubic.easeInOut,
         onComplete: function() {
 
             TweenMax.to(square, longestReturnDuration, {
-                x: centerX,
-                y: centerY,
+                x: randomNumber(0, canvas.width),
+                y: randomNumber(0, canvas.height),
                 width: 5,
                 ease: Cubic.easeInOut,
                 onComplete: function() {
