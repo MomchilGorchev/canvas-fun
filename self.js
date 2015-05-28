@@ -6,6 +6,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     var canvas = document.getElementById('scene');
     var ctx = canvas.getContext('2d');
     var dots = [];
+    var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -15,8 +16,10 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
             var x = Math.random() * canvas.width,
                 y = Math.random() * canvas.height,
-                radius = Math.random() * 3;
-            var dot = new Dot(x, y, radius);
+                radius = Math.random() * 10,
+                color = colors[Math.floor(i%colors.length)],
+                alpha = randomNumber(0.3, 1);
+            var dot = new Dot(x, y, radius, color, alpha);
 
             dots.push(dot);
         }
@@ -38,7 +41,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
             ctx.beginPath();
             ctx.arc(_this.x, _this.y, _this.radius, 0, Math.PI * 2, true);
             ctx.closePath();
-            ctx.fillStyle = _this.color;
+            ctx.fillStyle = 'rgba('+_this.color+', '+_this.alpha+')';
             ctx.fill();
         };
 
@@ -65,17 +68,32 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     function moveAround(dot){
 
-        TweenMax.to(dot, 0.7 + Math.random(), {
-            x: randomNumber(0, canvas.width),
-            y: randomNumber(0, canvas.height),
+        var pos = {
+            x: dot.x,
+            y: dot.y
+        };
+        var newPos = {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height
+        };
+
+        TweenMax.to(dot, 10 + Math.random(), {
+            x: newPos.x,
+            y: newPos.y,
             ease: Cubic.easeInOut,
             onComplete: function() {
 
-                TweenMax.to(dot, 0.7 + Math.random(), {
-                    x: randomNumber(0, canvas.width),
-                    y: randomNumber(0, canvas.height),
+                dot.x = newPos.x;
+                dot.y = newPos.y;
+
+                TweenMax.to(dot, 10 + Math.random(), {
+                    x: pos.x,
+                    y: pos.y,
                     ease: Cubic.easeInOut,
                     onComplete: function() {
+
+                        dot.x = pos.x;
+                        dot.y = pos.y;
                         moveAround(dot);
                     }
                 })
