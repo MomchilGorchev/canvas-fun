@@ -8,8 +8,10 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     var dots = [];
     var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
-    canvas.width = window.innerWidth - 50;
-    canvas.height = window.innerHeight - 50;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.background = 'black';
+
 
     function createDots(amount){
         for(var i = 0; i < amount; i++){
@@ -80,7 +82,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
         TweenMax.to(dot, 4 , {
             x: newPos.x,
             y: newPos.y,
-            ease: SlowMo.ease.config(0.7, 0.7, false),
+            ease: SlowMo.ease.config(0.3, 0.4, false),
             onComplete: function() {
 
                 dot.x = newPos.x;
@@ -89,7 +91,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                 TweenMax.to(dot, 4, {
                     x: pos.x,
                     y: pos.y,
-                    ease: SlowMo.ease.config(0.7, 0.7, false),
+                    ease: SlowMo.ease.config(0.3, 0.4, false),
                     onComplete: function() {
 
                         dot.x = pos.x;
