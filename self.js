@@ -79,23 +79,18 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
             y: Math.random() * canvas.height
         };
 
-        TweenMax.to(dot, 4 , {
+        var timing = dot.radius < 5 ? 3 : 17;
+
+        TweenMax.to(dot, timing, {
             x: newPos.x,
             y: newPos.y,
             ease: SlowMo.ease.config(0.3, 0.4, false),
             onComplete: function() {
-
-                dot.x = newPos.x;
-                dot.y = newPos.y;
-
-                TweenMax.to(dot, 4, {
+                TweenMax.to(dot, timing, {
                     x: pos.x,
                     y: pos.y,
                     ease: SlowMo.ease.config(0.3, 0.4, false),
                     onComplete: function() {
-
-                        dot.x = pos.x;
-                        dot.y = pos.y;
                         moveAround(dot);
                     }
                 })
