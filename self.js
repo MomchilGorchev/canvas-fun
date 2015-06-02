@@ -79,7 +79,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
             y: Math.random() * canvas.height
         };
 
-        var timing = dot.radius < 5 ? 3 : 17;
+        var timing = dot.radius < 5 ? 23 : 40;
 
         TweenMax.to(dot, timing, {
             x: newPos.x,
