@@ -56,7 +56,6 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
         for(var j = 0; j < dots.length; j++){
             dots[j].draw(ctx);
-
         }
 
         window.requestAnimationFrame(loop);
