@@ -18,17 +18,17 @@ scene.style.backgroundColor = 'black';
 function createDots(amount){
     for (var i = 0; i < amount; i++){
         var x = Math.random() * WIDTH,
-            y = 0,
+            y = -10,
             radius = 2,
             color = '71, 109, 171',
-            alpha = Math.random();
+            alpha = 0;
         var dot = new Dot(x, y, radius, color, alpha);
 
         dots.push(dot);
     }
 }
 
-createDots(1000);
+createDots(2000);
 
 function Dot(x, y, radius, color, alpha){
     var _this = this;
@@ -36,9 +36,10 @@ function Dot(x, y, radius, color, alpha){
     _this.x = x || Math.random() * WIDTH;
     _this.y = y || 0;
     _this.dy = 0;
+    _this.dx = 0;
     _this.radius = radius || 2;
     _this.color = color || 'white';
-    _this.alpha = alpha || Math.random();
+    _this.alpha = 0;
 
     _this.draw = function(ctx){
         ctx.beginPath();
@@ -59,16 +60,37 @@ function reDraw() {
 reDraw();
 
 function animateDot(d){
-    var newDy = (d.dy + Math.random() * 50) > HEIGHT ? 0 : d.dy + Math.random() * 50;
+
+    if(d.y <= 0){
+        d.alpha = Math.random();
+    }
+    if(d.x <= 0){
+        d.alpha = Math.random();
+    }
+    var newDy = HEIGHT;
+    var newXy = Math.random() * WIDTH;
+    var delay = Math.random() * 5;
+        //(d.dy + Math.random() * 5) > HEIGHT ? 0 : d.dy + Math.random() * 5;
 
     //newDy > HEIGHT ?
     //console.log(newDy);
 
     TweenMax.to(d, 2, {
         y: newDy,
+        x:  + newXy,
+        delay: delay,
         ease: Power0.easeNone,
         onComplete: function(){
             d.dy = d.y = newDy;
+            d.xy = d.x = newXy;
+            if(d.y >= HEIGHT){
+                d.alpha = 0;
+                d.y = -10;
+            }
+            if(d.x >= WIDTH){
+                d.alpha = 0;
+                d.x = -10;
+            }
             animateDot(d);
         }
     });
