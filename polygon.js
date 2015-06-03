@@ -31,7 +31,7 @@ CanvasRenderingContext2D.prototype.fillPolygon = function (pointsArray, fillColo
 };
 
 function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
-    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
     if (sides < 3) return;
     var a = (Math.PI * 2)/sides;
     a = anticlockwise?-a:a;
@@ -43,12 +43,18 @@ function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
         ctx.lineTo(radius*Math.cos(a*i),radius*Math.sin(a*i));
     }
     ctx.closePath();
-    ctx.fill();
+    ctx.stroke();
     ctx.restore();
 }
 
 for (var i = 0; i < 1; i++){
-    polygon(ctx, WIDTH / 2, HEIGHT / 2, 120, 15, 90, 1, 'white');
+    //ctx.beginPath();
+    polygon(ctx, WIDTH / 2, HEIGHT / 2, 120, 10, 90, -Math.PI /2, 'white');
+    ctx.shadowColor = '#c2c2c2';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur = 200;
+    ctx.fill();
 }
 
 //And you can use this method as
