@@ -13,7 +13,10 @@ var scene = document.getElementById('scene'),
     HEIGHT = scene.height = window.innerHeight,
     dots = [];
 scene.style.backgroundColor = 'black';
-
+var colors = ['#C7FCD7', '#D9D5A7', '#D9AB91', '#E6867A', '#ED4A6A'];
+function randomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 CanvasRenderingContext2D.prototype.fillPolygon = function (pointsArray, fillColor,     strokeColor) {
     if (pointsArray.length <= 0) return;
@@ -32,6 +35,7 @@ CanvasRenderingContext2D.prototype.fillPolygon = function (pointsArray, fillColo
 
 function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
     ctx.strokeStyle = color;
+    ctx.strokeWidth = 10;
     if (sides < 3) return;
     var a = (Math.PI * 2)/sides;
     a = anticlockwise?-a:a;
@@ -47,15 +51,18 @@ function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
     ctx.restore();
 }
 
-for (var i = 0; i < 1; i++){
+for (var i = 0; i < 10; i++){
     //ctx.beginPath();
-    polygon(ctx, WIDTH / 2, HEIGHT / 2, 120, 10, 90, -Math.PI /2, 'white');
-    ctx.shadowColor = '#c2c2c2';
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.shadowBlur = 200;
-    ctx.fill();
+    console.log(colors[Math.floor(i%colors.length)]);
+    polygon(ctx, WIDTH / 2 + i*5, HEIGHT / 2 + i*2, (i+1) * 10, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
+    //ctx.shadowColor = '#c2c2c2';
+    //ctx.shadowOffsetX = 0;
+    //ctx.shadowOffsetY = 0;
+    //ctx.shadowBlur = 200;
+    //ctx.fill();
 }
+
+//function
 
 //And you can use this method as
 //var polygonPoints = [[10,100],[20,75],[50,100],[100,100],[10,100]];

@@ -15,6 +15,7 @@ var scene = document.getElementById('scene'),
     dots = [];
 scene.style.backgroundColor = 'black';
 
+
 function createDots(amount){
     for (var i = 0; i < amount; i++){
         var x = Math.random() * WIDTH,
