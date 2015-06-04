@@ -11,7 +11,7 @@ var scene = document.getElementById('scene'),
     ctx = scene.getContext('2d'),
     WIDTH = scene.width = window.innerWidth,
     HEIGHT = scene.height = window.innerHeight,
-    dots = [];
+    shapes = [];
 scene.style.backgroundColor = 'black';
 var colors = ['#C7FCD7', '#D9D5A7', '#D9AB91', '#E6867A', '#ED4A6A'];
 function randomNumber(min, max) {
@@ -49,17 +49,40 @@ function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
     ctx.closePath();
     ctx.stroke();
     ctx.restore();
+    return {
+        x: x,
+        y: y,
+        radius: radius,
+        sides: sides,
+        startAngle: startAngle,
+        color: color
+    }
 }
 
-for (var i = 0; i < 10; i++){
+for (var i = 0; i < 20; i++){
     //ctx.beginPath();
     console.log(colors[Math.floor(i%colors.length)]);
-    polygon(ctx, WIDTH / 2 + i*5, HEIGHT / 2 + i*2, (i+1) * 10, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
+    shapes.push(polygon(ctx, WIDTH / 2 + i*5, HEIGHT / 2 + i*4, (i+1) * 10, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]));
+
     //ctx.shadowColor = '#c2c2c2';
     //ctx.shadowOffsetX = 0;
     //ctx.shadowOffsetY = 0;
     //ctx.shadowBlur = 200;
     //ctx.fill();
+}
+console.log(shapes);
+
+
+for (var j = 0; j < shapes.length; j ++){
+    var current = shapes[j];
+
+    TweenMax.to(current, 2, {
+        x: 0,
+        ease: Linear.easeNone,
+        onComplete: function(){
+            console.log('bump');
+        }
+    })
 }
 
 //function
