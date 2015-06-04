@@ -34,7 +34,7 @@ CanvasRenderingContext2D.prototype.fillPolygon = function (pointsArray, fillColo
 };
 
 function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = color || colors[Math.floor(i%colors.length)];
     ctx.strokeWidth = 10;
     if (sides < 3) return;
     var a = (Math.PI * 2)/sides;
@@ -61,7 +61,7 @@ function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
 
 for (var i = 0; i < 20; i++){
     //ctx.beginPath();
-    console.log(colors[Math.floor(i%colors.length)]);
+    //console.log(colors[Math.floor(i%colors.length)]);
     shapes.push(polygon(ctx, WIDTH / 2 + i*5, HEIGHT / 2 + i*4, (i+1) * 10, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]));
 
     //ctx.shadowColor = '#c2c2c2';
@@ -73,20 +73,36 @@ for (var i = 0; i < 20; i++){
 console.log(shapes);
 
 
-for (var j = 0; j < shapes.length; j ++){
-    var current = shapes[j];
+//for (var j = 0; j < shapes.length; j ++){
+//    var current = shapes[j];
+//
+//    TweenMax.to(current, 2, {
+//        x: 0,
+//        ease: Linear.easeNone,
+//        onComplete: function(){
+//            console.log('bump');
+//        }
+//    })
+//}
 
-    TweenMax.to(current, 2, {
-        x: 0,
-        ease: Linear.easeNone,
-        onComplete: function(){
-            console.log('bump');
-        }
-    })
-}
-
+ctx.font="50px Verdana";
+// Create gradient
+var gradient=ctx.createLinearGradient(0,0,WIDTH,0);
+gradient.addColorStop("0","ivory");
+gradient.addColorStop("0.5","blue");
+gradient.addColorStop("1.0","ivory");
+// Fill with gradient
+ctx.strokeStyle=gradient;
+ctx.strokeText("Looks like 3D",WIDTH / 1.8,50);
 //function
-
-//And you can use this method as
+var grd = ctx.createLinearGradient(0.687, 0.000, 102.313, 99.000);
+grd.addColorStop(0.239, 'rgba(255, 170, 86, 1.000)');
+grd.addColorStop(0.562, 'rgba(255, 255, 0, 1.000)');
+grd.addColorStop(1.000, 'rgba(255, 255, 255, 1.000)');
+ctx.beginPath();
+ctx.arc(0, 0, 100, 0, Math.PI * 2, true);
+ctx.closePath();
+ctx.fillStyle = grd;
+ctx.fill();//And you can use this method as
 //var polygonPoints = [[10,100],[20,75],[50,100],[100,100],[10,100]];
 //ctx.fillPolygon(polygonPoints, '#F00','#000');
