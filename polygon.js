@@ -18,91 +18,114 @@ function randomNumber(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-CanvasRenderingContext2D.prototype.fillPolygon = function (pointsArray, fillColor,     strokeColor) {
-    if (pointsArray.length <= 0) return;
-    this.moveTo(pointsArray[0][0], pointsArray[0][1]);
-    for (var i = 0; i < pointsArray.length; i++) {
-        this.lineTo(pointsArray[i][0], pointsArray[i][1]);
-    }
-    if (strokeColor != null && strokeColor != undefined)
-        this.strokeStyle = strokeColor;
+function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
+    var _this = this;
 
-    if (fillColor != null && fillColor != undefined) {
-        this.fillStyle = fillColor;
-        this.fill();
-    }
-};
+    _this.x = x;
+    _this.y = y;
+    _this.radius = radius;
+    _this.sides = sides;
+    _this.startAngle = startAngle;
+    _this.anticlockwise = anticlockwise;
+    _this.color = color;
 
-function polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color) {
-    ctx.strokeStyle = color || colors[Math.floor(i%colors.length)];
-    ctx.strokeWidth = 10;
-    if (sides < 3) return;
-    var a = (Math.PI * 2)/sides;
-    a = anticlockwise?-a:a;
-    ctx.save();
-    ctx.translate(x,y);
-    ctx.rotate(startAngle);
-    ctx.moveTo(radius,0);
-    for (var i = 1; i < sides; i++) {
-        ctx.lineTo(radius*Math.cos(a*i),radius*Math.sin(a*i));
-    }
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
-    return {
-        x: x,
-        y: y,
-        radius: radius,
-        sides: sides,
-        startAngle: startAngle,
-        color: color
-    }
+    _this.draw = function(ctx){
+        ctx.beginPath();
+        ctx.strokeStyle = _this.color;
+        ctx.strokeWidth = 10;
+        if (_this.sides < 3) return;
+        var a = (Math.PI * 2)/_this.sides;
+        a = _this.anticlockwise?-a:a;
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(_this.startAngle);
+        ctx.moveTo(_this.radius,0);
+        for (var i = 1; i < _this.sides; i++) {
+            ctx.lineTo(_this.radius*Math.cos(a*i),_this.radius*Math.sin(a*i));
+        }
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+    };
+    return _this;
 }
 
-for (var i = 0; i < 20; i++){
-    //ctx.beginPath();
-    //console.log(colors[Math.floor(i%colors.length)]);
-    shapes.push(polygon(ctx, WIDTH / 2 + i*5, HEIGHT / 2 + i*4, (i+1) * 10, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]));
+(function createShapes(){
+    for (var i = 0; i < 20; i++){
+        var poly = new Polygon(ctx, WIDTH / 2 , HEIGHT / 2, (i+1) * 20, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
+        //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
+        shapes.push(poly);
 
-    //ctx.shadowColor = '#c2c2c2';
-    //ctx.shadowOffsetX = 0;
-    //ctx.shadowOffsetY = 0;
-    //ctx.shadowBlur = 200;
-    //ctx.fill();
+    }
+}());
+
+
+
+function reDraw(){
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    for(var k = 0; k < shapes.length; k++){
+        shapes[k].draw(ctx);
+    }
+
+    requestAnimationFrame(reDraw);
 }
-console.log(shapes);
 
+reDraw();
+//console.log(shapes);
 
-//for (var j = 0; j < shapes.length; j ++){
-//    var current = shapes[j];
-//
-//    TweenMax.to(current, 2, {
-//        x: 0,
-//        ease: Linear.easeNone,
-//        onComplete: function(){
-//            console.log('bump');
-//        }
-//    })
-//}
+function animateShape(s, delay){
+    //console.log(s);
+    var pos = {
+        x: s.x,
+        y: s.y,
+        radius: s.radius
+    };
 
-ctx.font="50px Verdana";
-// Create gradient
-var gradient=ctx.createLinearGradient(0,0,WIDTH,0);
-gradient.addColorStop("0","ivory");
-gradient.addColorStop("0.5","blue");
-gradient.addColorStop("1.0","ivory");
-// Fill with gradient
-ctx.strokeStyle=gradient;
-ctx.strokeText("Looks like 3D",WIDTH / 1.8,50);
-//function
-var grd = ctx.createLinearGradient(0.687, 0.000, 102.313, 99.000);
-grd.addColorStop(0.239, 'rgba(255, 170, 86, 1.000)');
-grd.addColorStop(0.562, 'rgba(255, 255, 0, 1.000)');
-grd.addColorStop(1.000, 'rgba(255, 255, 255, 1.000)');
-ctx.beginPath();
-ctx.arc(0, 0, 100, 0, Math.PI * 2, true);
-ctx.closePath();
-ctx.fillStyle = grd;
-ctx.fill();//And you can use this method as
-//var polygonPoints = [[10,100],[20,75],[50,100],[100,100],[10,100]];
-//ctx.fillPolygon(polygonPoints, '#F00','#000');
+    var newPos = {
+        radius: pos.radius + 250,
+        x: pos.x + 50,
+        y: pos.y + 50
+    };
+    //console.log('The new x is ' + newPos.x );
+    TweenMax.to(s, 3, {
+        radius: pos.radius * 2,
+        x: newPos.x * 3,
+        delay: Math.random() * 2,
+        ease: Cubic.easeOut,
+        onComplete: function(){
+            TweenMax.to(s, 5, {
+                radius: pos.radius,
+                delay: Math.random() * 2,
+                ease: Cubic.easeOut,
+                onComplete: function(){
+                    animateShape(s);
+                }
+            })
+        }
+    })
+}
+
+for(var k = 0; k < shapes.length; k++){
+    animateShape(shapes[k], (k+1)* 10);
+}
+
+//ctx.font="50px Verdana";
+//// Create gradient
+//var gradient=ctx.createLinearGradient(0,0,WIDTH,0);
+//gradient.addColorStop("0","ivory");
+//gradient.addColorStop("0.5","blue");
+//gradient.addColorStop("1.0","ivory");
+//// Fill with gradient
+//ctx.strokeStyle=gradient;
+//ctx.strokeText("Looks like 3D",WIDTH / 1.8,50);
+////function
+//var grd = ctx.createLinearGradient(0.687, 0.000, 102.313, 99.000);
+//grd.addColorStop(0.239, 'rgba(255, 170, 86, 1.000)');
+//grd.addColorStop(0.562, 'rgba(255, 255, 0, 1.000)');
+//grd.addColorStop(1.000, 'rgba(255, 255, 255, 1.000)');
+//ctx.beginPath();
+//ctx.arc(0, 0, 100, 0, Math.PI * 2, true);
+//ctx.closePath();
+//ctx.fillStyle = grd;
+//ctx.fill();//And you can use this method as

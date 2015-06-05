@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding:0;
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
+<!--<script src="polygon.js"></script>-->
+<script>
+    var canvas = document.getElementById("scene");
+    var dc     = canvas.getContext("2d");
+    var angle = 0;
+    var x = canvas.width;
+    var y = canvas.height;
+    window.setInterval(function(){
+        angle = (angle + 1) % 360;
+        dc.clearRect(0, 0, canvas.width, canvas.height);
+
+        dc.save();
+        dc.fillStyle = "#DDDDDD";
+
+        dc.translate(x/2,y);
+        dc.rotate( angle*Math.PI/270 );  // rotate 90 degrees
+        dc.translate(0,0);
+
+        dc.beginPath();
+        dc.moveTo(-x/16, 0);
+        dc.lineTo(-x, y/2);
+        dc.lineTo(-x/2,y);
+        dc.lineTo(-0,y/16);
+        dc.closePath();
+        dc.fill();
+
+        dc.restore();
+    }, 20);
+</script>
+</body>
+</html>
