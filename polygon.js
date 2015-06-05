@@ -14,9 +14,6 @@ var scene = document.getElementById('scene'),
     shapes = [];
 scene.style.backgroundColor = 'black';
 var colors = ['#C7FCD7', '#D9D5A7', '#D9AB91', '#E6867A', '#ED4A6A'];
-function randomNumber(min, max) {
-    return Math.random() * (max - min) + min;
-}
 
 function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
     var _this = this;
@@ -75,7 +72,7 @@ reDraw();
 //console.log(shapes);
 
 function animateShape(s, delay){
-    //console.log(s);
+    //console.log(delay);
     var pos = {
         x: s.x,
         y: s.y,
@@ -87,16 +84,18 @@ function animateShape(s, delay){
         x: pos.x + 50,
         y: pos.y + 50
     };
+
+    var delayAnim = s.radius > 180 ? 0.5 : 1.5;
     //console.log('The new x is ' + newPos.x );
     TweenMax.to(s, 3, {
         radius: pos.radius * 2,
         x: newPos.x * 3,
-        delay: Math.random() * 2,
+        delay: delay,
         ease: Cubic.easeOut,
         onComplete: function(){
             TweenMax.to(s, 5, {
                 radius: pos.radius,
-                delay: Math.random() * 2,
+                delay: delay + 1,
                 ease: Cubic.easeOut,
                 onComplete: function(){
                     animateShape(s);
@@ -107,7 +106,7 @@ function animateShape(s, delay){
 }
 
 for(var k = 0; k < shapes.length; k++){
-    animateShape(shapes[k], (k+1)* 10);
+    animateShape(shapes[k], ((k+1) * 2) * 0.1 );
 }
 
 //ctx.font="50px Verdana";
