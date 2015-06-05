@@ -29,7 +29,7 @@ function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
     _this.draw = function(ctx){
         ctx.beginPath();
         ctx.strokeStyle = _this.color;
-        ctx.strokeWidth = 10;
+        ctx.lineWidth = 10;
         if (_this.sides < 3) return;
         var a = (Math.PI * 2)/_this.sides;
         a = _this.anticlockwise?-a:a;
@@ -49,7 +49,7 @@ function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
 
 (function createShapes(){
     for (var i = 0; i < 20; i++){
-        var poly = new Polygon(ctx, WIDTH / 2 , HEIGHT / 2, (i+1) * 20, 10, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
+        var poly = new Polygon(ctx, WIDTH / 2 , HEIGHT / 2, (i+1) * 20, 12, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
         //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
         shapes.push(poly);
 
@@ -91,12 +91,12 @@ function animateShape(s, delay){
         radius: pos.radius * 2,
         x: newPos.x * 3,
         delay: delay,
-        ease: Cubic.easeOut,
+        ease: Expo.easeInOut,
         onComplete: function(){
             TweenMax.to(s, 5, {
                 radius: pos.radius,
                 delay: delay + 1,
-                ease: Cubic.easeOut,
+                ease: Expo.easeInOut,
                 onComplete: function(){
                     animateShape(s);
                 }
