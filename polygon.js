@@ -13,9 +13,11 @@ var scene = document.getElementById('scene'),
     HEIGHT = scene.height = window.innerHeight,
     shapes = [];
 scene.style.backgroundColor = 'black';
-var colors = ['#C7FCD7', '#D9D5A7', '#D9AB91', '#E6867A', '#ED4A6A'];
+var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
-function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
+
+
+function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color, alpha){
     var _this = this;
 
     _this.x = x;
@@ -25,11 +27,13 @@ function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
     _this.startAngle = startAngle;
     _this.anticlockwise = anticlockwise;
     _this.color = color;
+    _this.alpha = 1 - _this.radius * 0.005; //Bigger radius means lower opacity
 
+    //console.log(_this.alpha);
     _this.draw = function(ctx){
         ctx.beginPath();
-        ctx.strokeStyle = _this.color;
-        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'rgba('+ _this.color +', '+ _this.alpha + ')';
+        ctx.lineWidth = 5;
         if (_this.sides < 3) return;
         var a = (Math.PI * 2)/_this.sides;
         a = _this.anticlockwise?-a:a;
@@ -47,16 +51,26 @@ function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color){
     return _this;
 }
 
-(function createShapes(){
-    for (var i = 0; i < 20; i++){
-        var poly = new Polygon(ctx, WIDTH / 2 , HEIGHT / 2, (i+1) * 20, 12, 90, -Math.PI /2, colors[Math.floor(i%colors.length)]);
+function createShapes(sides){
+    for (var i = 0; i < 10; i++){
+        var poly = new Polygon(
+            ctx,                                    // Canvas context
+            WIDTH / 2 ,                             // x value
+            HEIGHT / 2,                             // y value
+            (i+1) * 20,                             // radius
+            sides,                                     // sides
+            90,                                     // start angle
+            -Math.PI /2,                            // anticlockwise
+            colors[Math.floor(i%colors.length)],    // random color
+            1                                       // alpha
+        );
         //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
         shapes.push(poly);
 
     }
-}());
+};
 
-
+createShapes(10);
 
 function reDraw(){
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -82,20 +96,27 @@ function animateShape(s, delay){
     var newPos = {
         radius: pos.radius + 250,
         x: pos.x + 50,
-        y: pos.y + 50
+        y: pos.y + 50,
+        alpha: Math.random()
     };
 
-    var delayAnim = s.radius > 180 ? 0.5 : 1.5;
+    //var delayAnim = s.radius > 180 ? 0.5 : 1.5;
+
+    //console.log(newPos.alpha);
+
+
     //console.log('The new x is ' + newPos.x );
     TweenMax.to(s, 3, {
         radius: pos.radius * 2,
         x: newPos.x * 3,
+        autoAlpha: newPos.alpha,
         delay: delay,
         ease: Expo.easeInOut,
         onComplete: function(){
             TweenMax.to(s, 5, {
                 radius: pos.radius,
                 delay: delay + 1,
+                autoAlpha: 1,
                 ease: Expo.easeInOut,
                 onComplete: function(){
                     animateShape(s);
@@ -106,7 +127,7 @@ function animateShape(s, delay){
 }
 
 for(var k = 0; k < shapes.length; k++){
-    animateShape(shapes[k], ((k+1) * 2) * 0.1 );
+    animateShape(shapes[k], ((k+1) * 0.2) );
 }
 
 //ctx.font="50px Verdana";

@@ -9,12 +9,37 @@
             padding:0;
             margin:0;
         }
+        .controls{
+            width:200px;
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            background-color: white;
+            color: black;
+            padding:7px;
+        }
     </style>
 </head>
 <body>
-
+<div class="controls">
+    <label for="sidesController">Number of polygon sides</label>
+    <input type="number" min="3" class="controller" id="sidesController" />
+    <input type="submit" value="Reload" id="reloadAnimation" />
+</div>
 <canvas id="scene"></canvas>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
 <script src="polygon.js"></script>
+<script>
+    document.getElementById('reloadAnimation').addEventListener('click', function(e){
+        var _this = this;
+        var newSidesValue = document.getElementById('sidesController').value;
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        shapes = [];
+        createShapes(newSidesValue);
+        for(var k = 0; k < shapes.length; k++){
+            animateShape(shapes[k], ((k+1) * 0.2) );
+        }
+    })
+</script>
 </body>
 </html>
