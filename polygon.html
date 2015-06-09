@@ -23,7 +23,11 @@
 <body>
 <div class="controls">
     <label for="sidesController">Number of polygon sides</label>
-    <input type="number" min="3" class="controller" id="sidesController" />
+    <input type="number" min="3" class="controller" id="sidesController" /><br/>
+    <label for="speedController">Animation speed</label><br/>
+    <input type="number" min="1" max="50" class="controller" id="speedController" />
+    <label for="polygonsController">Animation speed</label><br/>
+    <input type="number" min="3" max="50" class="controller" id="polygonsController" />
     <input type="submit" value="Reload" id="reloadAnimation" />
 </div>
 <canvas id="scene"></canvas>
@@ -33,12 +37,14 @@
     document.getElementById('reloadAnimation').addEventListener('click', function(e){
         var _this = this;
         var newSidesValue = document.getElementById('sidesController').value;
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        shapes = [];
-        createShapes(newSidesValue);
-        for(var k = 0; k < shapes.length; k++){
-            animateShape(shapes[k], ((k+1) * 0.2) );
-        }
+        var newAnimationSpeed = document.getElementById('speedController').value;
+        var polygonAmount = document.getElementById('polygonsController').value;
+
+            ctx.clearRect(0, 0, WIDTH, HEIGHT);
+            shapes = [];
+            Scene = new CanvasScene(newSidesValue, newAnimationSpeed, polygonAmount);
+
+
     })
 </script>
 </body>

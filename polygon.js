@@ -15,120 +15,127 @@ var scene = document.getElementById('scene'),
 scene.style.backgroundColor = 'black';
 var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
+function CanvasScene(sides, animationSpeed, polygons){
+    var constructor = this;
+    constructor.sides = sides || 6;
+    constructor.animationSpeed = animationSpeed || 2;
+    constructor.polygons = polygons || 10;
 
-
-function Polygon(ctx, x, y, radius, sides, startAngle, anticlockwise, color, alpha){
-    var _this = this;
-
-    _this.x = x;
-    _this.y = y;
-    _this.radius = radius;
-    _this.sides = sides;
-    _this.startAngle = startAngle;
-    _this.anticlockwise = anticlockwise;
-    _this.color = color;
-    _this.alpha = 1 - _this.radius * 0.005; //Bigger radius means lower opacity
-
-    //console.log(_this.alpha);
-    _this.draw = function(ctx){
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba('+ _this.color +', '+ _this.alpha + ')';
-        ctx.lineWidth = 5;
-        if (_this.sides < 3) return;
-        var a = (Math.PI * 2)/_this.sides;
-        a = _this.anticlockwise?-a:a;
-        ctx.save();
-        ctx.translate(x,y);
-        ctx.rotate(_this.startAngle);
-        ctx.moveTo(_this.radius,0);
-        for (var i = 1; i < _this.sides; i++) {
-            ctx.lineTo(_this.radius*Math.cos(a*i),_this.radius*Math.sin(a*i));
+    constructor.init = function(){
+        constructor.createShapes(constructor.sides);
+        constructor.reDraw();
+        for(var k = 0; k < shapes.length; k++){
+            constructor.animateShape(shapes[k], ((k+1) * 0.2) );
         }
-        ctx.closePath();
-        ctx.stroke();
-        ctx.restore();
     };
-    return _this;
-}
+    constructor.Polygon = function(ctx, x, y, radius, sides, startAngle, anticlockwise, color, alpha){
+        var _this = this;
 
-function createShapes(sides){
-    for (var i = 0; i < 10; i++){
-        var poly = new Polygon(
-            ctx,                                    // Canvas context
-            WIDTH / 2 ,                             // x value
-            HEIGHT / 2,                             // y value
-            (i+1) * 20,                             // radius
-            sides,                                     // sides
-            90,                                     // start angle
-            -Math.PI /2,                            // anticlockwise
-            colors[Math.floor(i%colors.length)],    // random color
-            1                                       // alpha
-        );
-        //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
-        shapes.push(poly);
+        _this.x = x;
+        _this.y = y;
+        _this.radius = radius;
+        _this.sides = sides;
+        _this.startAngle = startAngle;
+        _this.anticlockwise = anticlockwise;
+        _this.color = color;
+        _this.alpha = 1 - _this.radius * 0.005; //Bigger radius means lower opacity
 
-    }
-};
+        //console.log(_this.alpha);
+        _this.draw = function(ctx){
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba('+ _this.color +', '+ _this.alpha + ')';
+            ctx.lineWidth = 5;
+            if (_this.sides < 3) return;
+            var a = (Math.PI * 2)/_this.sides;
+            a = _this.anticlockwise?-a:a;
+            ctx.save();
+            ctx.translate(x,y);
+            ctx.rotate(_this.startAngle);
+            ctx.moveTo(_this.radius,0);
+            for (var i = 1; i < _this.sides; i++) {
+                ctx.lineTo(_this.radius*Math.cos(a*i),_this.radius*Math.sin(a*i));
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+        };
+        return this;
+    };
 
-createShapes(10);
+    constructor.createShapes = function(sides){
+        for (var i = 0; i < constructor.polygons; i++){
+            var poly = new constructor.Polygon(
+                ctx,                                    // Canvas context
+                WIDTH / 2 ,                             // x value
+                HEIGHT / 2,                             // y value
+                (i+1) * 20,                             // radius
+                sides,                                     // sides
+                90,                                     // start angle
+                -Math.PI /2,                            // anticlockwise
+                colors[Math.floor(i%colors.length)],    // random color
+                1                                       // alpha
+            );
+            //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
+            shapes.push(poly);
 
-function reDraw(){
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        }
+    };
 
-    for(var k = 0; k < shapes.length; k++){
-        shapes[k].draw(ctx);
-    }
 
-    requestAnimationFrame(reDraw);
-}
 
-reDraw();
+    constructor.reDraw = function(){
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        for(var k = 0; k < shapes.length; k++){
+            shapes[k].draw(ctx);
+        }
+
+        requestAnimationFrame(constructor.reDraw);
+    };
+
+
 //console.log(shapes);
 
-function animateShape(s, delay){
-    //console.log(delay);
-    var pos = {
-        x: s.x,
-        y: s.y,
-        radius: s.radius
+    constructor.animateShape = function(s, delay){
+        //console.log(delay);
+        var pos = {
+            x: s.x,
+            y: s.y,
+            radius: s.radius
+        };
+
+        var newPos = {
+            radius: pos.radius + 250,
+            x: pos.x + 50,
+            y: pos.y + 50,
+            alpha: Math.random()
+        };
+
+        //console.log('The new x is ' + newPos.x );
+        TweenMax.to(s, constructor.animationSpeed, {
+            radius: pos.radius * 2,
+            x: newPos.x * 3,
+            autoAlpha: newPos.alpha,
+            delay: delay,
+            ease: Expo.easeInOut,
+            onComplete: function(){
+                TweenMax.to(s, constructor.animationSpeed, {
+                    radius: pos.radius,
+                    delay: delay,
+                    autoAlpha: 1,
+                    ease: Expo.easeInOut,
+                    onComplete: function(){
+                        constructor.animateShape(s);
+                    }
+                })
+            }
+        })
     };
 
-    var newPos = {
-        radius: pos.radius + 250,
-        x: pos.x + 50,
-        y: pos.y + 50,
-        alpha: Math.random()
-    };
-
-    //var delayAnim = s.radius > 180 ? 0.5 : 1.5;
-
-    //console.log(newPos.alpha);
-
-
-    //console.log('The new x is ' + newPos.x );
-    TweenMax.to(s, 3, {
-        radius: pos.radius * 2,
-        x: newPos.x * 3,
-        autoAlpha: newPos.alpha,
-        delay: delay,
-        ease: Expo.easeInOut,
-        onComplete: function(){
-            TweenMax.to(s, 5, {
-                radius: pos.radius,
-                delay: delay + 1,
-                autoAlpha: 1,
-                ease: Expo.easeInOut,
-                onComplete: function(){
-                    animateShape(s);
-                }
-            })
-        }
-    })
+    constructor.init();
 }
 
-for(var k = 0; k < shapes.length; k++){
-    animateShape(shapes[k], ((k+1) * 0.2) );
-}
+var Scene = new CanvasScene(10, 2, 10);
 
 //ctx.font="50px Verdana";
 //// Create gradient
