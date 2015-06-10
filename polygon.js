@@ -69,7 +69,7 @@ function CanvasScene(sides, animationSpeed, polygons){
                 WIDTH / 2 ,                             // x value
                 HEIGHT / 2,                             // y value
                 (i+1) * 20,                             // radius
-                sides,                                     // sides
+                sides,                                  // sides
                 90,                                     // start angle
                 -Math.PI /2,                            // anticlockwise
                 colors[Math.floor(i%colors.length)],    // random color
@@ -135,7 +135,7 @@ function CanvasScene(sides, animationSpeed, polygons){
     constructor.init();
 }
 
-var Scene = new CanvasScene(10, 2, 10);
+var Scene = new CanvasScene(6, 2, 10);
 
 //ctx.font="50px Verdana";
 //// Create gradient

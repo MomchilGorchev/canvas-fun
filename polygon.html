@@ -24,15 +24,18 @@
 </head>
 <body>
 <div class="controls">
-    <label for="polygonsController">Polygons <span id="polygonsPreview">10</span></label>
-    <input type="range" min="2" max="100" step="1" id="polygonsController" value="10" oninput="updatePreview(value, id)">
-
-    <label for="sidesController">Sides</label>
-    <input type="number" min="2" max="100" class="form-control" id="sidesController" placeholder="Value bigger than 3">
-
-    <label for="speedController">Animation speed</label>
-    <input type="number" min="2" max="100" class="form-control" id="speedController" placeholder="Value bigger than 3">
-
+    <div>
+        <label for="polygonsController">Polygons <span id="polygonsPreview">10</span></label>
+        <input type="range" min="2" max="100" step="1" id="polygonsController" value="10" oninput="updatePreview(value, id)">
+    </div>
+    <div>
+        <label for="sidesController">Polygon sides <span id="sidesPrievew">6</span></label>
+        <input type="range" min="3" max="100" step="1" id="sidesController" value="6" oninput="updatePreview(value, id)">
+    </div>
+    <div>
+        <label for="speedController">Polygon sides <span id="speedPrievew">2</span> s</label>
+        <input type="range" min="0.5" max="10" step="0.5" id="speedController" value="2" oninput="updatePreview(value, id)">
+    </div>
     <input type="submit" value="Reload" class="btn btn-success" id="reloadAnimation" />
 </div>
 <canvas id="scene"></canvas>
@@ -44,11 +47,13 @@
         _this.parentNode.querySelector('span').innerHTML = value;
     }
 
+
+
     document.getElementById('reloadAnimation').addEventListener('click', function(e){
 
         var newSidesValue = document.getElementById('sidesController').value;
         var newAnimationSpeed = document.getElementById('speedController').value;
-        var polygonAmount = document.getElementById('polygonsController').value;
+        var polygonAmount = +document.getElementById('polygonsController').value;
 
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
         shapes = [];
