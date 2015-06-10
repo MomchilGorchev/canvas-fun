@@ -22,6 +22,8 @@ function CanvasScene(sides, animationSpeed, polygons){
     constructor.polygons = polygons || 10;
 
     constructor.init = function(){
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        shapes = [];
         constructor.createShapes(constructor.sides);
         constructor.reDraw();
         for(var k = 0; k < shapes.length; k++){

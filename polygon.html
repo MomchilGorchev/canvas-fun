@@ -47,19 +47,15 @@
         _this.parentNode.querySelector('span').innerHTML = value;
     }
 
-
-
     document.getElementById('reloadAnimation').addEventListener('click', function(e){
 
         var newSidesValue = document.getElementById('sidesController').value;
         var newAnimationSpeed = document.getElementById('speedController').value;
         var polygonAmount = +document.getElementById('polygonsController').value;
 
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        shapes = [];
         Scene = new CanvasScene(newSidesValue, newAnimationSpeed, polygonAmount);
 
-    })
+    });
 </script>
 </body>
 </html>
