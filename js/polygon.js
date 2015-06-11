@@ -1,6 +1,8 @@
 /**
  * Created by momchillgorchev on 03/06/15.
  */
+
+// Save some stuff for efficiency
 window.requestAnimationFrame =
     window.requestAnimationFrame
     || window.mozRequestAnimationFrame
@@ -11,16 +13,20 @@ var scene = document.getElementById('scene'),
     ctx = scene.getContext('2d'),
     WIDTH = scene.width = window.innerWidth,
     HEIGHT = scene.height = window.innerHeight,
-    shapes = [];
+    shapes = [],
+    colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
+// Set the scene background
 scene.style.backgroundColor = 'black';
-var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
+// Constructor function
 function CanvasScene(sides, animationSpeed, polygons){
+    // Chache the initiator object and check params
     var constructor = this;
     constructor.sides = sides || 6;
     constructor.animationSpeed = animationSpeed || 2;
     constructor.polygons = polygons || 10;
 
+    // Init
     constructor.init = function(){
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
         shapes = [];
@@ -30,9 +36,10 @@ function CanvasScene(sides, animationSpeed, polygons){
             constructor.animateShape(shapes[k], ((k+1) * 0.2) );
         }
     };
+
+    // Main shape creator method
     constructor.Polygon = function(ctx, x, y, radius, sides, startAngle, anticlockwise, color, alpha){
         var _this = this;
-
         _this.x = x;
         _this.y = y;
         _this.radius = radius;
@@ -40,9 +47,9 @@ function CanvasScene(sides, animationSpeed, polygons){
         _this.startAngle = startAngle;
         _this.anticlockwise = anticlockwise;
         _this.color = color;
-        _this.alpha = 1 - _this.radius * 0.005; //Bigger radius means lower opacity
+        _this.alpha = 1 - _this.radius * 0.002; //Bigger radius means lower opacity
 
-        //console.log(_this.alpha);
+        // Draw the polygon
         _this.draw = function(ctx){
             ctx.beginPath();
             ctx.strokeStyle = 'rgba('+ _this.color +', '+ _this.alpha + ')';
@@ -64,6 +71,7 @@ function CanvasScene(sides, animationSpeed, polygons){
         return this;
     };
 
+    // Create "n" number of polygons
     constructor.createShapes = function(sides){
         for (var i = 0; i < constructor.polygons; i++){
             var poly = new constructor.Polygon(
@@ -77,27 +85,21 @@ function CanvasScene(sides, animationSpeed, polygons){
                 colors[Math.floor(i%colors.length)],    // random color
                 1                                       // alpha
             );
-            //console.log('Polygon at index [' + i + '] have radius ' + poly.radius );
+            // Save all shapes for later use
             shapes.push(poly);
-
         }
     };
 
-
-
+    // The loop method
     constructor.reDraw = function(){
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
         for(var k = 0; k < shapes.length; k++){
             shapes[k].draw(ctx);
         }
-
         requestAnimationFrame(constructor.reDraw);
     };
 
-
-//console.log(shapes);
-
+    // Main animation method
     constructor.animateShape = function(s, delay){
         //console.log(delay);
         var pos = {
@@ -113,7 +115,6 @@ function CanvasScene(sides, animationSpeed, polygons){
             alpha: Math.random()
         };
 
-        //console.log('The new x is ' + newPos.x );
         TweenMax.to(s, constructor.animationSpeed, {
             radius: pos.radius * 2,
             x: newPos.x * 3,
@@ -127,17 +128,21 @@ function CanvasScene(sides, animationSpeed, polygons){
                     autoAlpha: 1,
                     ease: Expo.easeInOut,
                     onComplete: function(){
-                        constructor.animateShape(s);
+                        setTimeout(function(){
+                            constructor.animateShape(s);
+                        }, delay * 1000);
                     }
                 })
             }
         })
     };
 
+    // init everything
     constructor.init();
 }
 
-var Scene = new CanvasScene(6, 2, 10);
+// Start everything :)
+var Scene = new CanvasScene(10, 5, 20);
 
 //ctx.font="50px Verdana";
 //// Create gradient

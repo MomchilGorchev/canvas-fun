@@ -25,22 +25,22 @@
 <body>
 <div class="controls">
     <div>
-        <label for="polygonsController">Polygons <span id="polygonsPreview">10</span></label>
-        <input type="range" min="2" max="100" step="1" id="polygonsController" value="10" oninput="updatePreview(value, id)">
+        <label for="polygonsController">Polygons <span id="polygonsPreview">20</span></label>
+        <input type="range" min="2" max="100" step="1" id="polygonsController" value="20" oninput="updatePreview(value, id)">
     </div>
     <div>
-        <label for="sidesController">Polygon sides <span id="sidesPrievew">6</span></label>
-        <input type="range" min="3" max="100" step="1" id="sidesController" value="6" oninput="updatePreview(value, id)">
+        <label for="sidesController">Polygon sides <span id="sidesPrievew">7</span></label>
+        <input type="range" min="3" max="100" step="1" id="sidesController" value="7" oninput="updatePreview(value, id)">
     </div>
     <div>
-        <label for="speedController">Polygon sides <span id="speedPrievew">2</span> s</label>
-        <input type="range" min="0.5" max="10" step="0.5" id="speedController" value="2" oninput="updatePreview(value, id)">
+        <label for="speedController">Polygon sides <span id="speedPrievew">5</span> s</label>
+        <input type="range" min="0.5" max="10" step="0.5" id="speedController" value="5" oninput="updatePreview(value, id)">
     </div>
     <input type="submit" value="Reload" class="btn btn-success" id="reloadAnimation" />
 </div>
 <canvas id="scene"></canvas>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
-<script src="polygon.js"></script>
+<script src="js/polygon.js"></script>
 <script>
     function updatePreview(value, id){
         var _this = document.querySelector('#'+ id);
