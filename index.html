@@ -11,38 +11,32 @@
         }
     </style>
 </head>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+
 <body>
 
-<canvas id="scene"></canvas>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
-<!--<script src="polygon.js"></script>-->
-<script>
-    var canvas = document.getElementById("scene");
-    var dc     = canvas.getContext("2d");
-    var angle = 0;
-    var x = canvas.width;
-    var y = canvas.height;
-    window.setInterval(function(){
-        angle = (angle + 1) % 360;
-        dc.clearRect(0, 0, canvas.width, canvas.height);
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">Canvas rocks!</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="javascript.html">Javascript</a></li>
+                <li><a href="mobile.html">Mobile</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="sass.html">Sass</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="javascript.html">Javascript</a></li>
+                <li><a href="mobile.html">Mobile</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        dc.save();
-        dc.fillStyle = "#DDDDDD";
-
-        dc.translate(x/2,y);
-        dc.rotate( angle*Math.PI/270 );  // rotate 90 degrees
-        dc.translate(0,0);
-
-        dc.beginPath();
-        dc.moveTo(-x/16, 0);
-        dc.lineTo(-x, y/2);
-        dc.lineTo(-x/2,y);
-        dc.lineTo(-0,y/16);
-        dc.closePath();
-        dc.fill();
-
-        dc.restore();
-    }, 20);
-</script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
 </body>
 </html>

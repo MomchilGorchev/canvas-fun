@@ -17,8 +17,8 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
         for(var i = 0; i < amount; i++){
 
             var x = Math.random() * canvas.width,
-                y = Math.random() * canvas.height,
-                radius = Math.random() * 10,
+                y = canvas.height + 20,
+                radius = (Math.random() + 1) * 5,
                 color = colors[Math.floor(i%colors.length)],
                 alpha = randomNumber(0.3, 1);
             var dot = new Dot(x, y, radius, color, alpha);
@@ -28,7 +28,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     }
 
-    createDots(1000);
+    createDots(10);
 
     function Dot(x, y, radius, color, alpha){
 
@@ -67,35 +67,43 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
         return Math.random() * (max - min) + min;
     }
 
-    function moveAround(dot){
+        function moveAround(dot){
 
-        var pos = {
-            x: dot.x,
-            y: dot.y
-        };
-        var newPos = {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height
-        };
+            var pos = {
+                x: dot.x,
+                y: dot.y
+            };
+            var newPos = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height
+            };
 
-        var timing = dot.radius < 5 ? 23 : 40;
+            var timing = Math.random() * dot.radius * 5;
 
-        TweenMax.to(dot, timing, {
-            x: newPos.x,
-            y: newPos.y,
-            ease: SlowMo.ease.config(0.3, 0.4, false),
-            onComplete: function() {
-                TweenMax.to(dot, timing, {
-                    x: pos.x,
-                    y: pos.y,
-                    ease: SlowMo.ease.config(0.3, 0.4, false),
-                    onComplete: function() {
-                        moveAround(dot);
-                    }
-                })
-            }
-        });
-    }
+            //dot.alpha = randomNumber(0.3, 1);
+
+            TweenMax.to(dot, timing, {
+                //x: newPos.x,
+                y: Math.random() * canvas.height,
+                delay: Math.random() * 3,
+                ease: Linear.easeNone,
+                onComplete: function() {
+
+                    //dot.y = canvas.height + 20;
+
+                    TweenMax.to(dot, timing, {
+                        bezier:{
+                            type:"soft",
+                            values:[{setX:150, setY:300}, {setX:300, setY:-10}, {setX:500 + Math.random() *100, setY:320*Math.random() + 50}, {setX:650, setY:320*Math.random() + 50}, {setX:900, setY:-80}]},
+                        delay: Math.random() * 3,
+                        ease: Linear.easeNone,
+                        onComplete: function() {
+                            moveAround(dot);
+                        }
+                    })
+                }
+            });
+        }
 
     for(var k = 0; k < dots.length; k++){
         moveAround(dots[k]);

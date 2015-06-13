@@ -82,14 +82,14 @@ function tweenSquares(square) {
 
     TweenMax.to(square, 0.7 + Math.random(), {
         x: randomNumber(0, canvas.width),
-        y: randomNumber(0, canvas.height),
+
         width: 20,
         delay:  .75,
         ease: Cubic.easeInOut,
         onComplete: function() {
 
             TweenMax.to(square, 0.7 + Math.random(), {
-                x: randomNumber(0, canvas.width),
+                //x: randomNumber(0, canvas.width),
                 y: randomNumber(0, canvas.height),
                 width: 5,
                 ease: Cubic.easeInOut,
