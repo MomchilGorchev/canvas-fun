@@ -104,23 +104,16 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
                     //dot.y = canvas.height + 20;
                     TweenMax.to(dot, timing, {
-                        //bezier:{
-                        //    type:"soft",
-                        //    values:[
-                        //        {setX:150, setY:300},
-                        //        {setX:300, setY:-10},
-                        //        {setX:500 + Math.random() *100, setY:320*Math.random() + 50},
-                        //        {setX:650, setY:320*Math.random() + 50}, {setX:900, setY:-80}
-                        //    ]
-                        //},
 
                         bezier:{
                             type:"soft",
                             values:[
-                                {x:WIDTH / 2 , y: HEIGHT / 2},
-                                {x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
-                                {x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
-                                {x:WIDTH / 2 - 100 , y: HEIGHT / 2 + 100},
+                                {x:WIDTH / 2 , y: 100},
+                                {x:WIDTH / 2 , y: 400},
+                                {x:WIDTH / 2 , y: 800},
+                                //{x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
+                                //{x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
+                                //{x:WIDTH / 2 - 100 , y: HEIGHT / 2 - 100},
                                 {x:Math.random() * WIDTH , y: HEIGHT + 10}
                             ],
                             autoRotate:["x","y","rotation", 0, true]
