@@ -8,8 +8,8 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     var dots = [];
     var colors = ['242, 56, 90', '245, 165, 3', '74, 217, 217', '54, 177, 191'];
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    var WIDTH = canvas.width = window.innerWidth;
+    var HEIGHT = canvas.height = window.innerHeight;
     canvas.style.background = 'black';
 
 
@@ -28,7 +28,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     }
 
-    createDots(100);
+    createDots(1000);
 
     function Dot(x, y, radius, color, alpha){
 
@@ -78,7 +78,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                 y: Math.random() * canvas.height
             };
 
-            var timing = Math.random() * dot.radius * 5;
+            var timing = Math.random()+ 1 * dot.radius;
 
             //dot.alpha = randomNumber(0.3, 1);
 
@@ -117,10 +117,11 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                         bezier:{
                             type:"soft",
                             values:[
-                                {x:dot.x + 10, y:newPos.y + 10},
-                                {x:300, y:100},
-                                {x:300, y:500},
-                                {x:500, y:400}
+                                {x:WIDTH / 2 , y: HEIGHT / 2},
+                                {x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
+                                {x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
+                                {x:WIDTH / 2 - 100 , y: HEIGHT / 2 + 100},
+                                {x:Math.random() * WIDTH , y: HEIGHT + 10}
                             ],
                             autoRotate:["x","y","rotation", 0, true]
                         },
