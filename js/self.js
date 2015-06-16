@@ -28,7 +28,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     }
 
-    createDots(10);
+    createDots(100);
 
     function Dot(x, y, radius, color, alpha){
 
@@ -82,19 +82,48 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
             //dot.alpha = randomNumber(0.3, 1);
 
+            //TweenMax.to(dot, 5, {
+            //    bezier:{
+            //        type:"soft",
+            //        values:[
+            //            {x:100, y:250},
+            //            {x:250, y:100},
+            //            {x:300, y:500},
+            //            {x:500, y:400}
+            //        ],
+            //        autoRotate:["x","y","rotation", 0, true]
+            //    },
+            //    ease:Power1.easeInOut});
+
             TweenMax.to(dot, timing, {
                 //x: newPos.x,
-                y: Math.random() * canvas.height,
+                y: newPos.y,
                 delay: Math.random() * 3,
                 ease: Linear.easeNone,
                 onComplete: function() {
 
                     //dot.y = canvas.height + 20;
-
                     TweenMax.to(dot, timing, {
+                        //bezier:{
+                        //    type:"soft",
+                        //    values:[
+                        //        {setX:150, setY:300},
+                        //        {setX:300, setY:-10},
+                        //        {setX:500 + Math.random() *100, setY:320*Math.random() + 50},
+                        //        {setX:650, setY:320*Math.random() + 50}, {setX:900, setY:-80}
+                        //    ]
+                        //},
+
                         bezier:{
                             type:"soft",
-                            values:[{setX:150, setY:300}, {setX:300, setY:-10}, {setX:500 + Math.random() *100, setY:320*Math.random() + 50}, {setX:650, setY:320*Math.random() + 50}, {setX:900, setY:-80}]},
+                            values:[
+                                {x:dot.x + 10, y:newPos.y + 10},
+                                {x:300, y:100},
+                                {x:300, y:500},
+                                {x:500, y:400}
+                            ],
+                            autoRotate:["x","y","rotation", 0, true]
+                        },
                         delay: Math.random() * 3,
                         ease: Linear.easeNone,
                         onComplete: function() {
