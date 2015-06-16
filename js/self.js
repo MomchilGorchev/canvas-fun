@@ -108,7 +108,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                         bezier:{
                             type:"soft",
                             values:[
-                                {x:WIDTH / 2 , y: 100},
+                                {x:(Math.random() + 1) * ((WIDTH / 2) + 30) - ((WIDTH / 2) - 30) % WIDTH , y: 100},
                                 {x:WIDTH / 2 , y: 400},
                                 {x:WIDTH / 2 , y: 800},
                                 //{x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
