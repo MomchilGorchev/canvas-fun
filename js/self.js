@@ -16,7 +16,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     function createDots(amount){
         for(var i = 0; i < amount; i++){
 
-            var x = Math.random() * canvas.width,
+            var x = canvas.width / 2,
                 y = canvas.height + 20,
                 radius = (Math.random() + 1) * 5,
                 color = colors[Math.floor(i%colors.length)],
@@ -28,7 +28,7 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
     }
 
-    createDots(1000);
+    createDots(500);
 
     function Dot(x, y, radius, color, alpha){
 
@@ -78,25 +78,11 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                 y: Math.random() * canvas.height
             };
 
-            var timing = Math.random()+ 1 * dot.radius;
+            var timing = Math.random() + 1 * dot.radius * 2;
 
-            //dot.alpha = randomNumber(0.3, 1);
-
-            //TweenMax.to(dot, 5, {
-            //    bezier:{
-            //        type:"soft",
-            //        values:[
-            //            {x:100, y:250},
-            //            {x:250, y:100},
-            //            {x:300, y:500},
-            //            {x:500, y:400}
-            //        ],
-            //        autoRotate:["x","y","rotation", 0, true]
-            //    },
-            //    ease:Power1.easeInOut});
 
             TweenMax.to(dot, timing, {
-                //x: newPos.x,
+                x: newPos.x,
                 y: newPos.y,
                 delay: Math.random() * 3,
                 ease: Linear.easeNone,
@@ -105,19 +91,17 @@ window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
                     //dot.y = canvas.height + 20;
                     TweenMax.to(dot, timing, {
 
-                        bezier:{
-                            type:"soft",
-                            values:[
-                                {x:(Math.random() + 1) * ((WIDTH / 2) + 30) - ((WIDTH / 2) - 30) % WIDTH , y: 100},
-                                {x:WIDTH / 2 , y: 400},
-                                {x:WIDTH / 2 , y: 800},
-                                //{x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
-                                //{x:Math.random() * WIDTH, y:Math.random() * HEIGHT},
-                                //{x:WIDTH / 2 - 100 , y: HEIGHT / 2 - 100},
-                                {x:Math.random() * WIDTH , y: HEIGHT + 10}
-                            ],
-                            autoRotate:["x","y","rotation", 0, true]
-                        },
+                        //bezier:{
+                        //    type:"soft",
+                        //    values:[
+                        //        {x:(Math.random() + 1) * ((WIDTH / 2) + 30) - ((WIDTH / 2) - 30) % WIDTH , y: 100},
+                        //        {x:WIDTH / 2 , y: 400},
+                        //        {x:WIDTH / 2 + 50, y: 800},
+                        //        {x:Math.random() * WIDTH , y: HEIGHT + 10}
+                        //    ],
+                        //    autoRotate:["x","y","rotation", 0, true]
+                        //},
+                        y: -10,
                         delay: Math.random() * 3,
                         ease: Linear.easeNone,
                         onComplete: function() {
