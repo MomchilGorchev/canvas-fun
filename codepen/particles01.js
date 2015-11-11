@@ -16,7 +16,7 @@
     bgc.fill();
 
     // Create points
-    for(var i = 0; i < 500; i++){
+    for(var i = 0; i < 1500; i++){
         var pos = {
             x: Math.random() * bgCanvas.width,
             y: Math.random() * bgCanvas.height
@@ -28,9 +28,51 @@
     }
 
     function shiftPoint(p){
+
+        var newPos = {};
+
+        // Depends on which part of the screen give different target position
+        // case statement maybe better as they will be several use cases
+        //if(p.x < width / 2 && p.y < height / 2){
+        //    newPos = {
+        //        x: p.x * Math.random(),
+        //        y: p.y * Math.random()
+        //    };
+        //} else if(p.x < width / 2 && p.y > height / 2) {
+        //    newPos = {
+        //        x: p.x * Math.random(),
+        //        y: p.y * Math.random()
+        //    };
+        //} else {
+        //    newPos = {
+        //        x: p.x / Math.random(),
+        //        y: p.y / Math.random()
+        //    };
+        //
+        //    if(newPos.x > width){
+        //        newPos.x = width;
+        //    }
+        //    if(newPos.y > height){
+        //        newPos.y = height;
+        //    }
+        //
+        //}
+
+        if(p.x < width / 12 && p.y < height / 12){
+            newPos = {
+                x: Math.random() * width,
+                y: Math.random() * height
+            }
+        } else {
+            newPos = {
+                x: p.x * Math.random(),
+                y: p.y * Math.random()
+            };
+        }
+
         TweenMax.to(p, 1 + Math.random(), {
-            x: Math.sin(2*Math.random()),
-            y: Math.sin(2*Math.random()),
+            x: newPos.x,
+            y: newPos.y,
             ease: Circ.easeInOut,
             onComplete: function() {
                 shiftPoint(p);
