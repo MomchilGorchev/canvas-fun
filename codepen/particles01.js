@@ -18,8 +18,8 @@
     // Create points
     for(var i = 0; i < 1500; i++){
         var pos = {
-            x: Math.random() * bgCanvas.width,
-            y: Math.random() * bgCanvas.height
+            x: Math.random() * width,
+            y: height
         };
         stars.push(pos);
         bgc.fillStyle = 'white';
@@ -58,22 +58,22 @@
         //
         //}
 
-        if(p.x < width / 12 && p.y < height / 12){
+        //if(p.x < width / 12 && p.y < height / 12){
+        //    newPos = {
+        //        x: Math.random() * width,
+        //        y: Math.random() * height
+        //    }
+        //} else {
             newPos = {
-                x: Math.random() * width,
-                y: Math.random() * height
-            }
-        } else {
-            newPos = {
-                x: p.x * Math.random(),
-                y: p.y * Math.random()
+                x: p.x - Math.random() * 150,
+                y: p.y - Math.random() * 150
             };
-        }
+        //}
 
         TweenMax.to(p, 1 + Math.random(), {
             x: newPos.x,
             y: newPos.y,
-            ease: Circ.easeInOut,
+            ease: Linear.easeNone,
             onComplete: function() {
                 shiftPoint(p);
             }
