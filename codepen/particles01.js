@@ -65,14 +65,14 @@
         //    }
         //} else {
         newPos = {
-            x: p.x - Math.random() * 100,
-            y: p.y - Math.random() * 100
+            x: p.x * Math.random(),
+            y: p.y * Math.random()
         };
 
-        if(newPos.y < height / 2){
+        if(newPos.y < height / 3){
             newPos = {
-                x: width,
-                y: height
+                x: p.x * Math.random(),
+                y: p.y * Math.random()
             };
         }
 
