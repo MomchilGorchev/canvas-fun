@@ -18,7 +18,7 @@
     // Create points
     for(var i = 0; i < 1500; i++){
         var pos = {
-            x: Math.random() * width,
+            x: width,
             y: height
         };
         stars.push(pos);
@@ -64,10 +64,19 @@
         //        y: Math.random() * height
         //    }
         //} else {
+        newPos = {
+            x: p.x - Math.random() * 100,
+            y: p.y - Math.random() * 100
+        };
+
+        if(newPos.y < height / 2){
             newPos = {
-                x: p.x - Math.random() * 150,
-                y: p.y - Math.random() * 150
+                x: width,
+                y: height
             };
+        }
+
+
         //}
 
         TweenMax.to(p, 1 + Math.random(), {
