@@ -23,6 +23,7 @@
         height: screen.availHeight
     };
 
+    // Found it difficult to get the correct positions dynamically 
     actualPos = {
         x: pos.left / scr.width * 100,
         y: pos.top / scr.height * 100
@@ -53,10 +54,10 @@
         tween1 = new mojs.Burst({
             parent: el,
             duration: 1500,
-            shape : 'circle',
+            shape : 'polygon',
             fill : [ '#988ADE', '#DE8AA0', '#8AAEDE', '#8ADEAD', '#DEC58A', '#8AD1DE' ],
-            x: actualPos.left +'%',
-            y: actualPos.top +'%',
+            x: actualPos.left,
+            y: actualPos.top,
             opacity: 0.6,
             childOptions: { radius: {20:0} },
             radius: {40:120},
@@ -69,14 +70,14 @@
         tween2 = new mojs.Transit({
             parent: el,
             duration: 750,
-            type: 'cross',
+            type: 'circle',
             radius: {0: 50},
             fill: 'transparent',
             stroke: '#988ADE',
             strokeWidth: {15:0},
             opacity: 0.6,
-            x: actualPos.left +'%',
-            y: actualPos.top +'%',
+            x: actualPos.left,
+            y: actualPos.top,
             isRunLess: true,
             easing: mojs.easing.bezier(0, 1, 0.5, 1)
         }),
