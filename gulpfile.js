@@ -11,7 +11,7 @@ const plugins = gulpLoadPlugins();
 
 // SASS
 gulp.task("sass", () => {
-  return gulp.src("src/scss/*.scss")
+  return gulp.src("src/styles/*.scss")
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass())
     .pipe(plugins.sourcemaps.write({includeContent: false}))

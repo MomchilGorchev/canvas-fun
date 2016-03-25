@@ -1,0 +1,1 @@
+{"version":3,"sources":["core.scss","core.css"],"names":[],"mappings":"AACA;EACC,kBAAkB,EAClB;;ACAD,qNAAqN","file":"core.css","sourceRoot":"/source/","sourcesContent":["\n.brand-logo{\n\tmargin-left: 10px;\n}"]}
